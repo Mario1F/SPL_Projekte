@@ -1,0 +1,10 @@
+# Build artifacts (Arduino CLI / PlatformIO)
+build/
+.pio/
+*.hex
+*.elf
+*.o
+
+# Editor / OS
+.vscode/
+Thumbs.db
