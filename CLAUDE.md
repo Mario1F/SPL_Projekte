@@ -15,3 +15,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - The actual code/project folder for an assignment lives directly under the repository root (`SPL_Projekte/`), sibling to `Aufgaben/` and `OwnLibs/` — e.g. `TasterTest/TasterTest.ino`, not nested inside `Aufgaben/`.
 - `OwnLibs/<ClassName>/`: reusable classes shared across multiple sketches, as `.h`/`.cpp` pairs (e.g. `OwnLibs/Taster/Taster.h`), so they can be included from any project instead of being duplicated per sketch.
 - Whenever a task's `.md` file and its code folder aren't already in these locations, move them there — always keep this separation enforced rather than leaving task docs and code mixed together.
+
+## Documentation
+
+- Every library under `OwnLibs/<ClassName>/` and every assignment/project folder at the repository root (e.g. `TasterTest/`) must contain its own `README.md` documenting that class or sketch.
+- The `README.md` must describe every class, every method (including all constructor overloads and their parameters/defaults), and any other relevant detail (current implementation status, known limitations, usage notes/example).
+- When a library or project is created or changed, keep its `README.md` in sync with the code — add missing documentation and update anything that no longer matches the implementation.
