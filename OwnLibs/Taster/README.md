@@ -1,11 +1,11 @@
 # Taster
 
 Wiederverwendbare Klasse zur Ansteuerung eines einfachen Tasters am Arduino Nano.
-Dateien: `Taster.h`, `Taster.cpp`.
+Dateien: `Taster.h`, `Taster.cpp`, `library.properties` (Metadaten, damit der Ordner als Arduino-Bibliothek erkannt wird).
 
 ## Aktueller Stand
 
-Umsetzung des reduzierten Umfangs aus `Aufgaben/Aufgabe1_Taster.md`:
+Umsetzung des reduzierten Umfangs aus `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`:
 
 - **Entprellen (Debouncing) ist noch nicht implementiert.** Ein "Prellen" des mechanischen Kontakts kann daher aktuell noch als mehrere Tastendrücke erkannt werden.
 - `longPressDuration` wird im Konstruktor entgegengenommen und gespeichert, aber **noch nicht ausgewertet** (kein "kurz/lang gedrückt"-Unterscheidung).

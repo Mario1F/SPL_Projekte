@@ -21,3 +21,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Every library under `OwnLibs/<ClassName>/` and every assignment/project folder at the repository root (e.g. `TasterTest/`) must contain its own `README.md` documenting that class or sketch.
 - The `README.md` must describe every class, every method (including all constructor overloads and their parameters/defaults), and any other relevant detail (current implementation status, known limitations, usage notes/example).
 - When a library or project is created or changed, keep its `README.md` in sync with the code — add missing documentation and update anything that no longer matches the implementation.
+
+## Git workflow
+
+- Always commit after finishing each step (e.g. after each completed change or task), without waiting to be asked. Keep each commit focused on that step.

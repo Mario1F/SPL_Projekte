@@ -1,20 +1,38 @@
 # TasterTest
 
-Arduino-Sketch (`TasterTest.ino`), der die Klasse `Taster` (`OwnLibs/Taster/`) testen soll.
-Zugehörige Aufgabenstellung: `Aufgaben/Aufgabe1_Taster.md`.
+Arduino-Sketch (`TasterTest.ino`), der die Klasse `Taster` (`OwnLibs/Taster/`) testet.
+Zugehörige Aufgabenstellung: `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`.
 
 ## Aktueller Stand
 
-**Noch nicht implementiert** – `TasterTest.ino` ist aktuell nur ein leeres Gerüst mit einer leeren `setup()`- und `loop()`-Funktion. Die eigentliche Testlogik ist laut Aufgabenstellung bewusst noch nicht umgesetzt ("Hinweis: In diesem Schritt geht es nur um das Festhalten der Anforderungen").
+Implementiert. Der Sketch setzt das geforderte Testverhalten um:
 
-## Geplantes Soll-Verhalten
+- Bei einem Tastendruck leuchtet die LED **5 Sekunden**.
+- Wird der Taster **innerhalb dieser 5 Sekunden** erneut gedrückt, startet die Zeit neu (die LED leuchtet ab dem neuen Druck wieder 5 Sekunden; es wird nicht zur Restzeit addiert).
 
-- Verwendet ein `Taster`-Objekt aus `OwnLibs/Taster/` zur Erkennung von Tastendrücken.
-- Bei einem Tastendruck soll eine LED **5 Sekunden** leuchten.
-- Wird der Taster **innerhalb dieser 5 Sekunden** erneut gedrückt, soll die Leuchtdauer der LED um weitere **5 Sekunden** verlängert werden (die Zeit wird ab dem neuen Tastendruck neu gestartet, nicht zur bestehenden Restzeit addiert).
-- In `loop()` muss `taster.update()` als **erster Befehl** aufgerufen werden, damit der Tastendruck zuverlässig erkannt wird (siehe Dokumentation der `Taster`-Klasse).
+Da `Taster` noch kein Entprellen besitzt, kann ein prellender Taster in seltenen Fällen mehrfach auslösen – für dieses Testverhalten ist das unkritisch, da jeder Auslöser nur die Zeit neu startet.
 
-## Funktionen
+## Verdrahtung
 
-- **`void setup()`** – einmalige Initialisierung beim Programmstart. Aktuell leer; wird für Pin-Konfiguration der LED und Erzeugung des `Taster`-Objekts benötigt, sobald die Testlogik implementiert wird.
-- **`void loop()`** – wird fortlaufend ausgeführt. Aktuell leer; wird künftig `taster.update()` als ersten Befehl sowie die Logik zum Ein-/Ausschalten der LED anhand der 5-Sekunden-Regel enthalten.
+| Bauteil | Pin |
+|---|---|
+| Taster | D2 (gegen GND, `INPUT_PULLUP`, negative Logik) |
+| LED | `LED_BUILTIN` (D13, On-Board-LED) |
+
+## Build-Hinweis
+
+Die Klasse liegt in `OwnLibs/Taster/` (mit `library.properties`, also eine gültige Arduino-Bibliothek). Damit der Sketch kompiliert, muss `OwnLibs` als Bibliotheksordner bekannt sein:
+
+```
+arduino-cli compile --fqbn arduino:avr:nano --libraries OwnLibs TasterTest
+```
+
+Alternativ `OwnLibs/Taster` in den Arduino-`libraries`-Ordner kopieren. Hinweis: Der Kompiliervorgang wurde bisher nicht getestet (`arduino-cli` ist auf diesem Rechner nicht installiert).
+
+## Funktionen / Konstanten
+
+- **`BUTTON_PIN`** (`2`), **`LED_PIN`** (`LED_BUILTIN`), **`LED_ON_DURATION`** (`5000` ms) – Konfiguration.
+- **`Taster button`** – globales Taster-Objekt (Standardwerte: negative Logik).
+- **`ledOn`** / **`ledStartTime`** – Zustand der LED und Startzeitpunkt (`millis()`) der aktuellen Leuchtphase.
+- **`void setup()`** – konfiguriert den LED-Pin als Ausgang und schaltet die LED aus.
+- **`void loop()`** – ruft zuerst `button.update()` auf. Meldet `button.wasPressed()` einen Druck, wird die LED eingeschaltet und `ledStartTime` neu gesetzt. Ist die LED an und sind seit `ledStartTime` mindestens 5000 ms vergangen (überlaufsicher per Differenzbildung), wird sie ausgeschaltet.

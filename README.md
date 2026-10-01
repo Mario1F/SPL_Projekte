@@ -17,7 +17,7 @@ Diese Trennung sorgt dafür, dass Aufgabenstellung (Dokumentation) und Umsetzung
 
 Kapselt einen Taster (Button) am Arduino.
 
-**Aktueller Stand** (Aufgabe 1, reduzierter Umfang – siehe `Aufgaben/Aufgabe1_Taster.md`):
+**Aktueller Stand** (Aufgabe 1, reduzierter Umfang – siehe `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`):
 - Entprellen (Debouncing) ist **noch nicht** implementiert.
 - Die Dauer für "lang gedrückt" wird entgegengenommen, aber noch nicht ausgewertet.
 
@@ -52,8 +52,8 @@ Parameter:
 
 ### `TasterTest` (`TasterTest/`)
 
-Testprogramm für die `Taster`-Klasse (Anforderungen siehe `Aufgaben/Aufgabe1_Taster.md`).
+Testprogramm für die `Taster`-Klasse (Anforderungen siehe `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`).
 
 Soll-Verhalten: Eine LED leuchtet 5 Sekunden nach einem Tastendruck. Wird der Taster innerhalb dieser 5 Sekunden erneut gedrückt, verlängert sich die Leuchtdauer um weitere 5 Sekunden.
 
-> Stand: Der Sketch ist noch nicht implementiert (leeres Gerüst).
+> Stand: Implementiert (LED an `LED_BUILTIN`, Taster an D2).
