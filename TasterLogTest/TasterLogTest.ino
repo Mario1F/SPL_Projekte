@@ -3,6 +3,8 @@
 const uint8_t BUTTON_PIN = 2;
 const unsigned long LONG_PRESS_DURATION = 1000; // ms
 const unsigned long STEP_TIMEOUT = 15000;       // ms
+const uint8_t LED_PIN = LED_BUILTIN;
+const unsigned long LED_ON_DURATION = 5000;     // ms
 
 Taster button(BUTTON_PIN, true, LONG_PRESS_DURATION);
 
@@ -21,6 +23,8 @@ unsigned long pressStartTime = 0;
 bool pressedSeen = false;
 uint8_t passCount = 0;
 uint8_t failCount = 0;
+bool ledOn = false;
+unsigned long ledStartTime = 0;
 
 void logPrefix() {
     Serial.print('[');
@@ -82,11 +86,29 @@ void announceStep() {
             Serial.print(F("FAIL: "));
             Serial.println(failCount);
             Serial.println(failCount == 0 ? F("ALL TESTS PASSED") : F("SOME TESTS FAILED"));
+            logLine(F("DEMO: press the button, the LED lights for 5 s; pressing again restarts the 5 s"));
             break;
     }
 }
 
+// LED demo: a press lights the LED for 5 s, a press during that time restarts the 5 s
+void runLedDemo() {
+    if (button.wasPressed()) {
+        ledOn = true;
+        ledStartTime = millis();
+        digitalWrite(LED_PIN, HIGH);
+        logLine(F("LED on (5 s)"));
+    }
+    if (ledOn && millis() - ledStartTime >= LED_ON_DURATION) {
+        ledOn = false;
+        digitalWrite(LED_PIN, LOW);
+        logLine(F("LED off"));
+    }
+}
+
 void setup() {
+    pinMode(LED_PIN, OUTPUT);
+    digitalWrite(LED_PIN, LOW);
     Serial.begin(9600);
     logLine(F("=== TasterLogTest started ==="));
     Serial.print(F("Button on D2, long press threshold: "));
@@ -101,6 +123,7 @@ void loop() {
         announceStep();
     }
     if (step == STEP_DONE) {
+        runLedDemo();
         return;
     }
 

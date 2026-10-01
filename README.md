@@ -7,7 +7,7 @@ Sammlung von Arduino-Nano-Projekten (programmiert in C/C++) für das Fach SPL.
 - **`Aufgaben/`** – enthält ausschließlich die Aufgabenstellungen als `.md`-Dateien (eine Datei pro Aufgabe, z. B. `Aufgabe1_Taster.md`). Hier liegt **kein Code**.
   - **`Aufgaben/Abgeschlossene_Projekte/`** – Archiv für die `.md`-Dateien bereits abgeschlossener Aufgaben.
 - **`OwnLibs/`** – eigene, wiederverwendbare Klassen, die in mehreren Projekten zum Einsatz kommen. Jede Klasse hat einen eigenen Unterordner mit `.h`/`.cpp`-Datei.
-- **Projekt-Ordner auf oberster Ebene** (z. B. `TasterTest/`) – jeweils ein eigenständiger Arduino-Sketch (`.ino`-Datei mit demselben Namen wie der Ordner), der eine Aufgabe umsetzt/testet. Diese Ordner liegen bewusst **nicht** in `Aufgaben/`, sondern direkt im Projekt-Wurzelverzeichnis.
+- **Projekt-Ordner auf oberster Ebene** (z. B. `TasterLogTest/`) – jeweils ein eigenständiger Arduino-Sketch (`.ino`-Datei mit demselben Namen wie der Ordner), der eine Aufgabe umsetzt/testet. Diese Ordner liegen bewusst **nicht** in `Aufgaben/`, sondern direkt im Projekt-Wurzelverzeichnis.
 
 Diese Trennung sorgt dafür, dass Aufgabenstellung (Dokumentation) und Umsetzung (Code) unabhängig voneinander auffindbar sind.
 
@@ -51,14 +51,6 @@ Parameter:
 
 ## Projekte
 
-### `TasterTest` (`TasterTest/`)
-
-Testprogramm für die `Taster`-Klasse (Anforderungen siehe `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`).
-
-Soll-Verhalten: Eine LED leuchtet 5 Sekunden nach einem Tastendruck. Wird der Taster innerhalb dieser 5 Sekunden erneut gedrückt, verlängert sich die Leuchtdauer um weitere 5 Sekunden.
-
-> Stand: Implementiert (LED an `LED_BUILTIN`, Taster an D2).
-
 ### `TasterLogTest` (`TasterLogTest/`)
 
-Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse) mit Serial-Ausgabe und PowerShell-Skript `log_serial.ps1`, das die Ausgabe in eine Log-Datei schreibt. Details siehe `TasterLogTest/README.md`.
+Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse, danach LED-Demo: 5 s leuchten, bei erneutem Druck Neustart; ersetzt das frühere `TasterTest`) mit Serial-Ausgabe und PowerShell-Skript `log_serial.ps1`, das die Ausgabe in eine Log-Datei schreibt. Details siehe `TasterLogTest/README.md`.

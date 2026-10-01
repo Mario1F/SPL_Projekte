@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Anleitung TasterLogTest</title>
+<style>
+  body { font-family: system-ui, sans-serif; max-width: 860px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; color: #1a1a1a; }
+  h1, h2 { border-bottom: 1px solid #ddd; padding-bottom: .2rem; }
+  pre { background: #f3f3f3; padding: .8rem; border-radius: 6px; overflow-x: auto; }
+  code { background: #f3f3f3; padding: 0 .25rem; border-radius: 3px; }
+  pre code { padding: 0; }
+  table { border-collapse: collapse; width: 100%; margin: .5rem 0 1rem; }
+  th, td { border: 1px solid #ccc; padding: .4rem .6rem; text-align: left; }
+  th { background: #eee; }
+  .note { background: #fff7d6; border-left: 4px solid #e0b400; padding: .5rem .8rem; margin: 1rem 0; }
+  svg { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+
+<h1>TasterLogTest – Anleitung</h1>
+<p>Diese Anleitung zeigt, wie der Taster am <strong>Arduino Nano</strong> angeschlossen wird und welche Befehle für jeden Test nötig sind.</p>
+
+<h2>1. Anschluss am Arduino Nano</h2>
+<table>
+  <tr><th>Bauteil</th><th>Anschluss</th><th>Hinweis</th></tr>
+  <tr><td>Taster, Beinchen 1</td><td>Pin <strong>D2</strong></td><td>Eingang</td></tr>
+  <tr><td>Taster, Beinchen 2 (gegenüberliegend)</td><td><strong>GND</strong></td><td>Taster zieht beim Drücken auf LOW</td></tr>
+  <tr><td>LED</td><td>On-Board-LED (<strong>D13</strong>)</td><td>keine Verdrahtung nötig</td></tr>
+  <tr><td>USB-Kabel</td><td>Nano &harr; PC</td><td>Stromversorgung, Hochladen und serielle Ausgabe</td></tr>
+</table>
+<p>Es wird <strong>kein externer Widerstand</strong> benötigt: Der Sketch verwendet den internen Pullup (<code>INPUT_PULLUP</code>, negative Logik).</p>
+
+<svg viewBox="0 0 520 190" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schaltplan Taster an D2 und GND">
+  <rect x="30" y="20" width="170" height="150" rx="8" fill="#e8f0fe" stroke="#335"/>
+  <text x="115" y="45" text-anchor="middle" font-size="14" font-weight="bold">Arduino Nano</text>
+  <circle cx="200" cy="80" r="4" fill="#335"/><text x="190" y="84" text-anchor="end" font-size="13">D2</text>
+  <circle cx="200" cy="130" r="4" fill="#335"/><text x="190" y="134" text-anchor="end" font-size="13">GND</text>
+  <polyline points="200,80 300,80" fill="none" stroke="#c00" stroke-width="2"/>
+  <polyline points="200,130 300,130" fill="none" stroke="#000" stroke-width="2"/>
+  <rect x="300" y="70" width="90" height="70" rx="6" fill="#fff" stroke="#335"/>
+  <circle cx="345" cy="105" r="14" fill="#ccc" stroke="#335"/>
+  <text x="345" y="160" text-anchor="middle" font-size="13">Taster</text>
+  <text x="410" y="84" font-size="12">Beinchen 1</text>
+  <text x="410" y="134" font-size="12">Beinchen 2</text>
+  <polyline points="390,80 400,80" fill="none" stroke="#c00" stroke-width="2"/>
+  <polyline points="390,130 400,130" fill="none" stroke="#000" stroke-width="2"/>
+</svg>
+
+<div class="note">Bei einem Taster mit vier Beinchen sind je zwei gegenüberliegende Beinchen intern verbunden. Die beiden Anschlüsse müssen auf <em>verschiedenen</em> Seiten liegen, sonst ist der Taster dauerhaft gedrückt.</div>
+
+<h2>2. Einmalige Vorbereitung</h2>
+<p>Arduino-CLI ist installiert (<code>winget install --id ArduinoSA.CLI -e</code>) und die Plattform vorhanden:</p>
+<pre><code>arduino-cli core update-index
+arduino-cli core install arduino:avr</code></pre>
+<p>Den COM-Port des Nano herausfinden (Terminal im Ordner <code>SPL_Projekte</code>):</p>
+<pre><code>arduino-cli board list</code></pre>
+<p>Im Folgenden steht <code>COM3</code> als Beispiel – durch den eigenen Port ersetzen.</p>
+
+<h2>3. Sketch kompilieren und hochladen</h2>
+<pre><code>arduino-cli compile --fqbn arduino:avr:nano --libraries OwnLibs TasterLogTest
+arduino-cli upload -p COM3 --fqbn arduino:avr:nano TasterLogTest</code></pre>
+<div class="note">Bei einem Nano mit altem Bootloader (Klone) schlägt der Upload evtl. fehl. Dann überall <code>--fqbn arduino:avr:nano:cpu=atmega328old</code> verwenden.</div>
+
+<h2>4. Ausgabe mitlesen und loggen</h2>
+<p>Variante A – mit Log-Datei (empfohlen), PowerShell im Ordner <code>SPL_Projekte</code>:</p>
+<pre><code>.\TasterLogTest\log_serial.ps1 -Port COM3</code></pre>
+<p>Die Ausgabe erscheint im Terminal und wird in <code>TasterLogTest\logs\test_log_&lt;Datum_Uhrzeit&gt;.txt</code> gespeichert. Beenden mit <kbd>Strg</kbd>+<kbd>C</kbd>.</p>
+<p>Variante B – nur ansehen, ohne Datei:</p>
+<pre><code>arduino-cli monitor -p COM3 -c baudrate=9600</code></pre>
+<p>Es kann immer nur ein Programm den COM-Port belegen: Vor dem Hochladen den Monitor bzw. das Skript beenden.</p>
+
+<h2>5. Die Tests</h2>
+<p>Nach dem Start (oder Reset des Nano) führt der Sketch automatisch durch alle Tests. Pro Test hast du 15 Sekunden Zeit.</p>
+<table>
+  <tr><th>Test</th><th>Was du tust</th><th>Erwartete Ausgabe</th></tr>
+  <tr><td>1</td><td>Taster <strong>kurz</strong> drücken (unter 1 s) und loslassen</td><td><code>event: shortPress() ...</code> und <code>PASS: short press reported as shortPress() only</code></td></tr>
+  <tr><td>2</td><td>Taster <strong>lang</strong> drücken (über 1 s) und loslassen</td><td><code>event: longPress() ...</code> und <code>PASS: long press reported as longPress() only</code></td></tr>
+  <tr><td>3</td><td>Taster kurz drücken</td><td><code>event: wasPressed()</code> beim Drücken, danach <code>shortPress()</code> beim Loslassen, <code>PASS: wasPressed() fired before shortPress()</code></td></tr>
+  <tr><td>4</td><td>Taster kurz drücken</td><td><code>PASS: events are reported only once</code></td></tr>
+  <tr><td>Ende</td><td>–</td><td><code>=== SUMMARY ===</code> mit Anzahl PASS/FAIL und <code>ALL TESTS PASSED</code> oder <code>SOME TESTS FAILED</code></td></tr>
+</table>
+<p><strong>Demo (LED-Test):</strong> Nach den Tests leuchtet bei jedem Tastendruck die On-Board-LED <strong>5 Sekunden</strong>. Drückst du innerhalb dieser Zeit erneut, startet die Zeit neu (<code>LED on (5 s)</code> / <code>LED off</code> im Log).</p>
+<p>Tests wiederholen: Reset-Taster am Nano drücken (oder USB aus- und einstecken).</p>
+
+<h2>6. Typische Probleme</h2>
+<table>
+  <tr><th>Problem</th><th>Ursache / Lösung</th></tr>
+  <tr><td>Keine Ausgabe</td><td>Falscher COM-Port oder Baudrate ungleich 9600</td></tr>
+  <tr><td>Upload-Fehler (<code>not in sync</code>)</td><td>Alten Bootloader verwenden: <code>:cpu=atmega328old</code></td></tr>
+  <tr><td>Port belegt</td><td>Monitor oder <code>log_serial.ps1</code> noch offen – beenden</td></tr>
+  <tr><td>Mehrere Ereignisse pro Druck</td><td>Prellen – das Entprellen ist noch nicht implementiert (geplante Erweiterung)</td></tr>
+  <tr><td>Taster wirkt dauerhaft gedrückt</td><td>Beinchen auf derselben Seite angeschlossen</td></tr>
+</table>
+
+</body>
+</html>
