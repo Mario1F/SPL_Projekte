@@ -8,7 +8,7 @@ Dateien: `Taster.h`, `Taster.cpp`, `library.properties` (Metadaten, damit der Or
 Umsetzung des reduzierten Umfangs aus `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`:
 
 - **Entprellen (Debouncing) ist noch nicht implementiert.** Ein "Prellen" des mechanischen Kontakts kann daher aktuell noch als mehrere Tastendrücke erkannt werden.
-- `longPressDuration` wird im Konstruktor entgegengenommen und gespeichert, aber **noch nicht ausgewertet** (kein "kurz/lang gedrückt"-Unterscheidung).
+- `shortPress()` und `longPress()` sind implementiert (Auswertung beim Loslassen, ohne Entprellen). Zeitraum-Parameter gibt es noch nicht.
 - Es gibt aktuell keine Methode, um den momentanen (entprellten) Zustand direkt abzufragen – nur die Flankenerkennung über `wasPressed()`.
 
 ## Klasse `Taster`
@@ -31,7 +31,7 @@ Parameter:
 |---|---|---|
 | `pin` | `uint8_t` | Pin-Nummer, an dem der Taster angeschlossen ist. |
 | `negativeLogic` | `bool` | `true`: Taster zieht den Pin im gedrückten Zustand auf `LOW` (Pin wird intern als `INPUT_PULLUP` konfiguriert, kein externer Widerstand nötig). `false`: Taster zieht im gedrückten Zustand auf `HIGH` (Pin wird als `INPUT` konfiguriert, dafür wird ein externer Pulldown-Widerstand benötigt). |
-| `longPressDuration` | `unsigned long` | Dauer in Millisekunden, ab der ein Druck als "lang" gelten soll. Wird in dieser Version nur gespeichert, aber noch nicht ausgewertet. |
+| `longPressDuration` | `unsigned long` | Dauer in Millisekunden, ab der ein Druck als "lang" gelten soll. Ein Druck mit mindestens dieser Dauer zählt als lang, ein kürzerer als kurz. |
 
 Der Konstruktor konfiguriert den angegebenen Pin passend zur gewählten Logik direkt über `pinMode()`.
 
@@ -43,6 +43,12 @@ Der Konstruktor konfiguriert den angegebenen Pin passend zur gewählten Logik di
 - **`bool wasPressed()`**
   Liefert **einmalig** `true`, wenn seit dem letzten Aufruf dieser Methode ein neuer Tastendruck erkannt wurde (steigende Flanke, erkannt durch `update()`). Nach dem Auslesen wird das interne Ereignis-Flag zurückgesetzt (`pressedEvent = false`), sodass derselbe Tastendruck nicht mehrfach gemeldet wird. Wurde kein neuer Druck erkannt, liefert die Methode `false`.
 
+- **`bool shortPress()`**
+  Liefert **einmalig** `true`, wenn der Taster losgelassen wurde und die Druckdauer (Zeit zwischen steigender und fallender Flanke, gemessen mit `millis()`) **kleiner als `longPressDuration`** war. Das Ereignis wird erst beim Loslassen erkannt und beim Auslesen zurückgesetzt.
+
+- **`bool longPress()`**
+  Liefert **einmalig** `true`, wenn der Taster losgelassen wurde und die Druckdauer **mindestens `longPressDuration`** betrug. Das Ereignis wird erst beim Loslassen erkannt und beim Auslesen zurückgesetzt.
+
 ### Private Member
 
 | Member | Bedeutung |
@@ -53,6 +59,9 @@ Der Konstruktor konfiguriert den angegebenen Pin passend zur gewählten Logik di
 | `pressed` | aktueller (nicht entprellter) logischer Zustand nach dem letzten `update()` |
 | `lastPressed` | logischer Zustand beim vorherigen `update()`-Aufruf, dient der Flankenerkennung |
 | `pressedEvent` | wird bei einer erkannten steigenden Flanke gesetzt und von `wasPressed()` konsumiert |
+| `shortPressEvent` | wird beim Loslassen nach einem kurzen Druck gesetzt und von `shortPress()` konsumiert |
+| `longPressEvent` | wird beim Loslassen nach einem langen Druck gesetzt und von `longPress()` konsumiert |
+| `pressStartTime` | `millis()`-Zeitpunkt der letzten steigenden Flanke |
 
 ### Beispiel
 
@@ -77,5 +86,4 @@ void loop() {
 
 - Entprellen (Debouncing)
 - Abfrage des aktuellen (entprellten) Zustands
-- Erkennung "kurz gedrückt" / "lang gedrückt" unter Nutzung von `longPressDuration`
 - Zeitraum-bezogene Abfragen (z. B. "wurde in den letzten X ms gedrückt")

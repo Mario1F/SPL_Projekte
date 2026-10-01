@@ -14,7 +14,10 @@ Taster::Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration)
       longPressDuration(longPressDuration),
       pressed(false),
       lastPressed(false),
-      pressedEvent(false) {
+      pressedEvent(false),
+      shortPressEvent(false),
+      longPressEvent(false),
+      pressStartTime(0) {
     if (negativeLogic) {
         pinMode(pin, INPUT_PULLUP);
     } else {
@@ -28,6 +31,13 @@ void Taster::update() {
 
     if (pressed && !lastPressed) {
         pressedEvent = true;
+        pressStartTime = millis();
+    } else if (!pressed && lastPressed) {
+        if (millis() - pressStartTime >= longPressDuration) {
+            longPressEvent = true;
+        } else {
+            shortPressEvent = true;
+        }
     }
     lastPressed = pressed;
 }
@@ -35,6 +45,22 @@ void Taster::update() {
 bool Taster::wasPressed() {
     if (pressedEvent) {
         pressedEvent = false;
+        return true;
+    }
+    return false;
+}
+
+bool Taster::shortPress() {
+    if (shortPressEvent) {
+        shortPressEvent = false;
+        return true;
+    }
+    return false;
+}
+
+bool Taster::longPress() {
+    if (longPressEvent) {
+        longPressEvent = false;
         return true;
     }
     return false;

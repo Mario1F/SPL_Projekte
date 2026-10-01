@@ -19,7 +19,7 @@ Kapselt einen Taster (Button) am Arduino.
 
 **Aktueller Stand** (Aufgabe 1, reduzierter Umfang – siehe `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`):
 - Entprellen (Debouncing) ist **noch nicht** implementiert.
-- Die Dauer für "lang gedrückt" wird entgegengenommen, aber noch nicht ausgewertet.
+- `shortPress()` / `longPress()` sind implementiert (Auswertung beim Loslassen anhand `longPressDuration`).
 
 **Konstruktoren** (mit Standardwerten durch Überladung):
 
@@ -35,17 +35,18 @@ Parameter:
 |---|---|
 | `pin` | Pin-Nummer, an dem der Taster angeschlossen ist |
 | `negativeLogic` | `true`: Taster zieht den Pin auf LOW (Pin wird als `INPUT_PULLUP` konfiguriert); `false`: Taster zieht auf HIGH (Pin wird als `INPUT` konfiguriert, externer Pulldown-Widerstand nötig) |
-| `longPressDuration` | Dauer in ms, ab der ein Druck als "lang" gilt (aktuell noch ungenutzt) |
+| `longPressDuration` | Dauer in ms, ab der ein Druck als "lang" gilt |
 
 **Methoden:**
 
 - `void update()` – muss in `loop()` als **erster Befehl** aufgerufen werden. Liest den Pin aus und aktualisiert den internen Zustand (Voraussetzung für zuverlässige Erkennung).
 - `bool wasPressed()` – liefert einmalig `true`, wenn seit dem letzten Aufruf von `update()` ein neuer Tastendruck erkannt wurde (Flankenerkennung: Übergang von "nicht gedrückt" zu "gedrückt"). Das Ergebnis wird nach dem Auslesen zurückgesetzt, ein einzelner Tastendruck wird also nur einmal gemeldet.
+- `bool shortPress()` – liefert einmalig `true`, wenn der Taster losgelassen wurde und der Druck kürzer als `longPressDuration` war.
+- `bool longPress()` – liefert einmalig `true`, wenn der Taster losgelassen wurde und der Druck mindestens `longPressDuration` lang war.
 
 **Geplante Erweiterungen:**
 - Entprellen
 - Abfrage, ob der Taster aktuell (nach Entprellen) gedrückt ist
-- Erkennung "kurz gedrückt" / "lang gedrückt"
 - Zeitraum-bezogene Abfragen (z. B. "wurde in den letzten X ms gedrückt")
 
 ## Projekte
