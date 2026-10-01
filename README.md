@@ -58,3 +58,7 @@ Testprogramm für die `Taster`-Klasse (Anforderungen siehe `Aufgaben/Abgeschloss
 Soll-Verhalten: Eine LED leuchtet 5 Sekunden nach einem Tastendruck. Wird der Taster innerhalb dieser 5 Sekunden erneut gedrückt, verlängert sich die Leuchtdauer um weitere 5 Sekunden.
 
 > Stand: Implementiert (LED an `LED_BUILTIN`, Taster an D2).
+
+### `TasterLogTest` (`TasterLogTest/`)
+
+Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse) mit Serial-Ausgabe und PowerShell-Skript `log_serial.ps1`, das die Ausgabe in eine Log-Datei schreibt. Details siehe `TasterLogTest/README.md`.

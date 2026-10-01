@@ -8,3 +8,6 @@ build/
 # Editor / OS
 .vscode/
 Thumbs.db
+
+# Test logs
+TasterLogTest/logs/
