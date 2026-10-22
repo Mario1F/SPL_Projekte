@@ -53,7 +53,11 @@ Parameter:
 
 ### `LedStrip` (`OwnLibs/LedStrip/`)
 
-Steuert einen WS2812-LED-Streifen über Adafruit NeoPixel, nicht blockierend, `show()` nur an einer Stelle mit begrenzter Framerate. Aktuell Muster rot/blau (`enum Pattern`). Details siehe `OwnLibs/LedStrip/README.md`.
+Steuert einen WS2812-LED-Streifen über Adafruit NeoPixel, nicht blockierend, `show()` nur an einer Stelle mit begrenzter Framerate. Aktuell Muster rot/blau (`enum Pattern`), einstellbare LED-Anzahl, grüne Blink-Rückmeldung und Vorschau. Details siehe `OwnLibs/LedStrip/README.md`.
+
+### `Settings` (`OwnLibs/Settings/`)
+
+Speichert Muster-Index und LED-Anzahl dauerhaft im EEPROM (Magic-Byte, Validierung, Standardwerte, `EEPROM.update()`). Details siehe `OwnLibs/Settings/README.md`.
 
 ## Projekte
 
@@ -63,4 +67,4 @@ Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse, danach
 
 ### `LedStrip` (`LedStrip/`)
 
-Aufgabe 2, Schritt 1: Taster (D2) schaltet den LED-Streifen (D6, 30 LEDs) zwischen den Mustern rot und blau um. Details siehe `LedStrip/README.md`, Aufgabenstellung in `Aufgaben/Aufgabe2_LedStreifen.md`.
+Aufgabe 2, Schritt 1 und Aufgabe 3: Taster (D2) schaltet den LED-Streifen (D6, 30 LEDs) zwischen den Mustern rot und blau um; langer Druck speichert Muster bzw. LED-Anzahl im EEPROM. Details siehe `LedStrip/README.md`, Aufgabenstellungen in `Aufgaben/Aufgabe2_LedStreifen.md` und `Aufgaben/Aufgabe3_Speichern_EEPROM.md`.
