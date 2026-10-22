@@ -8,6 +8,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Even if an assignment's instructions use a German word or name (e.g. an assignment describing a "Taster"), translate it to English for identifiers. Only use a German identifier if the assignment explicitly requires that exact German name to be used.
 - All projects in this folder are programmed in C for the Arduino Nano.
 
+## Assignment workflow
+
+- The user always sends an excerpt of the course script (Skript) that describes the assignment.
+- For each such excerpt, do the following in order, without waiting to be asked:
+  1. Create the task description as a `.md` file in `Aufgaben/` (e.g. `Aufgaben/Aufgabe3_Name.md`) based on the excerpt.
+  2. Write a plan for carrying out the assignment (steps, files, classes/libraries involved).
+  3. Execute the plan: create the project folder / libraries per "Project structure", write the code, and add the `README.md` files per "Documentation".
+  4. Commit after each step per "Git workflow".
+
 ## Project structure
 
 - `Aufgaben/`: contains only the `.md` task-description files for each assignment (e.g. `Aufgaben/Aufgabe1_Taster.md`) — never source code.
