@@ -2,6 +2,12 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Erwartungen an die Zusammenarbeit
+
+- **Nicht schmeicheln, nicht reflexhaft zustimmen.** Wenn eine Idee, ein Vorschlag oder eine Entscheidung des Users eine Lücke, einen Denkfehler oder ein Risiko hat, das direkt benennen — auch ungefragt. Wenn es eine bessere Lösung gibt, die vorschlagen statt kommentarlos die schlechtere umzusetzen. Zustimmung nur aussprechen, wenn sie inhaltlich verdient ist.
+- **Keine Annahmen treffen, nachfragen.** Wenn die Aufgabenstellung unklar, mehrdeutig oder unvollständig ist (z. B. Pins, Verhalten, Randfälle, Namen), nicht raten und nicht stillschweigend eine Annahme einbauen, sondern vor der Umsetzung gezielt nachfragen.
+- **Dokumentation immer aktuell halten.** Wenn Code-Änderungen Architektur, Entscheidungen, Vorgehen oder Befehle betreffen, die in `CLAUDE.md`, `Aufgaben/` oder den jeweiligen `README.md`-Dateien beschrieben sind, die entsprechenden Stellen im gleichen Arbeitsschritt mitziehen — nicht nur Code ändern und die Doku veralten lassen.
+
 ## Coding conventions
 
 - Always use English for identifiers: variable names, function/method names, class names, file names, etc. This applies regardless of the language used for comments or documentation.
