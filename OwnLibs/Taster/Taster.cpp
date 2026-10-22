@@ -1,17 +1,26 @@
 #include "Taster.h"
 
 Taster::Taster(uint8_t pin)
-    : Taster(pin, true, 1000) {
+    : Taster(pin, true, 1000, 20) {
 }
 
 Taster::Taster(uint8_t pin, bool negativeLogic)
-    : Taster(pin, negativeLogic, 1000) {
+    : Taster(pin, negativeLogic, 1000, 20) {
 }
 
 Taster::Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration)
+    : Taster(pin, negativeLogic, longPressDuration, 20) {
+}
+
+Taster::Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration, unsigned long debounceTime)
     : pin(pin),
       negativeLogic(negativeLogic),
       longPressDuration(longPressDuration),
+      debounceTime(debounceTime),
+      rawPressed(false),
+      rawChangeTime(0),
+      hasPressed(false),
+      lastPressTime(0),
       pressed(false),
       lastPressed(false),
       pressedEvent(false),
@@ -26,14 +35,26 @@ Taster::Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration)
 }
 
 void Taster::update() {
+    unsigned long now = millis();
     bool rawState = digitalRead(pin);
-    pressed = negativeLogic ? !rawState : rawState;
+    bool raw = negativeLogic ? !rawState : rawState;
+
+    // Entprellen: neuer Pegel wird erst uebernommen, wenn er debounceTime lang stabil war
+    if (raw != rawPressed) {
+        rawPressed = raw;
+        rawChangeTime = now;
+    }
+    if (rawPressed != pressed && now - rawChangeTime >= debounceTime) {
+        pressed = rawPressed;
+    }
 
     if (pressed && !lastPressed) {
         pressedEvent = true;
-        pressStartTime = millis();
+        pressStartTime = now;
+        lastPressTime = now;
+        hasPressed = true;
     } else if (!pressed && lastPressed) {
-        if (millis() - pressStartTime >= longPressDuration) {
+        if (now - pressStartTime >= longPressDuration) {
             longPressEvent = true;
         } else {
             shortPressEvent = true;
@@ -64,4 +85,16 @@ bool Taster::longPress() {
         return true;
     }
     return false;
+}
+
+bool Taster::isPressed() const {
+    return pressed;
+}
+
+bool Taster::isPressedFor(unsigned long ms) const {
+    return pressed && millis() - pressStartTime >= ms;
+}
+
+bool Taster::wasPressedWithin(unsigned long ms) const {
+    return hasPressed && millis() - lastPressTime <= ms;
 }

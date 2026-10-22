@@ -18,16 +18,18 @@ Diese Trennung sorgt dafür, dass Aufgabenstellung (Dokumentation) und Umsetzung
 Kapselt einen Taster (Button) am Arduino.
 
 **Aktueller Stand** (Aufgabe 1, reduzierter Umfang – siehe `Aufgaben/Abgeschlossene_Projekte/Aufgabe1_Taster.md`):
-- Entprellen (Debouncing) ist **noch nicht** implementiert.
+- Entprellen (Debouncing) ist implementiert (Standard 20 ms, einstellbar).
 - `shortPress()` / `longPress()` sind implementiert (Auswertung beim Loslassen anhand `longPressDuration`).
+- `isPressed()`, `isPressedFor(ms)` und `wasPressedWithin(ms)` sind implementiert.
 
 **Konstruktoren** (mit Standardwerten durch Überladung):
 
 | Konstruktor | Standardwerte |
 |---|---|
-| `Taster(uint8_t pin)` | `negativeLogic = true`, `longPressDuration = 1000` ms |
+| `Taster(uint8_t pin)` | `negativeLogic = true`, `longPressDuration = 1000` ms, `debounceTime = 20` ms |
 | `Taster(uint8_t pin, bool negativeLogic)` | `longPressDuration = 1000` ms |
-| `Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration)` | – |
+| `Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration)` | `debounceTime = 20` ms |
+| `Taster(uint8_t pin, bool negativeLogic, unsigned long longPressDuration, unsigned long debounceTime)` | – |
 
 Parameter:
 
@@ -36,6 +38,7 @@ Parameter:
 | `pin` | Pin-Nummer, an dem der Taster angeschlossen ist |
 | `negativeLogic` | `true`: Taster zieht den Pin auf LOW (Pin wird als `INPUT_PULLUP` konfiguriert); `false`: Taster zieht auf HIGH (Pin wird als `INPUT` konfiguriert, externer Pulldown-Widerstand nötig) |
 | `longPressDuration` | Dauer in ms, ab der ein Druck als "lang" gilt |
+| `debounceTime` | Zeit in ms, die ein neuer Pegel stabil anliegen muss, bevor er übernommen wird |
 
 **Methoden:**
 
@@ -44,10 +47,9 @@ Parameter:
 - `bool shortPress()` – liefert einmalig `true`, wenn der Taster losgelassen wurde und der Druck kürzer als `longPressDuration` war.
 - `bool longPress()` – liefert einmalig `true`, wenn der Taster losgelassen wurde und der Druck mindestens `longPressDuration` lang war.
 
-**Geplante Erweiterungen:**
-- Entprellen
-- Abfrage, ob der Taster aktuell (nach Entprellen) gedrückt ist
-- Zeitraum-bezogene Abfragen (z. B. "wurde in den letzten X ms gedrückt")
+- `bool isPressed() const` – `true`, solange der Taster (nach Entprellen) gedrückt ist.
+- `bool isPressedFor(unsigned long ms) const` – `true`, wenn der Taster seit mindestens `ms` ms ununterbrochen gedrückt ist.
+- `bool wasPressedWithin(unsigned long ms) const` – `true`, wenn in den letzten `ms` ms ein Tastendruck erkannt wurde (nicht verbrauchend; `false`, solange noch nie gedrückt wurde).
 
 ## Projekte
 
