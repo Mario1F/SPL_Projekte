@@ -19,6 +19,10 @@ Aufgabe 2, Schritt 1 und Aufgabe 3: Mit einem Taster zwischen Mustern des LED-St
 
 Beim Start werden Muster und LED-Anzahl aus dem EEPROM geladen; ist nichts (Gültiges) gespeichert, gelten Muster rot und 30 LEDs.
 
+## UML
+
+Klassen-, Zustands-, Sequenz- und Ablaufdiagramm siehe [UML.md](UML.md).
+
 ## Funktionsweise
 
 - Globale Variable `pattern` (Typ `Pattern`) verbindet Taster- und Streifenteil: der Tasterteil schreibt sie, der Streifenteil liest sie.

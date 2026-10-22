@@ -67,4 +67,4 @@ Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse, danach
 
 ### `LedStrip` (`LedStrip/`)
 
-Aufgabe 2, Schritt 1 und Aufgabe 3: Taster (D2) schaltet den LED-Streifen (D6, 30 LEDs) zwischen den Mustern rot und blau um; langer Druck speichert Muster bzw. LED-Anzahl im EEPROM. Details siehe `LedStrip/README.md`, Aufgabenstellungen in `Aufgaben/Aufgabe2_LedStreifen.md` und `Aufgaben/Aufgabe3_Speichern_EEPROM.md`.
+Aufgabe 2, Schritt 1 und Aufgabe 3: Taster (D2) schaltet den LED-Streifen (D6, 30 LEDs) zwischen den Mustern rot und blau um; langer Druck speichert Muster bzw. LED-Anzahl im EEPROM. Details siehe `LedStrip/README.md`, UML-Diagramme in `LedStrip/UML.md`, Aufgabenstellungen in `Aufgaben/Aufgabe2_LedStreifen.md` und `Aufgaben/Aufgabe3_Speichern_EEPROM.md`.

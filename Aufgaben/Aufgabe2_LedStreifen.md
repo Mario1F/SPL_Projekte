@@ -34,4 +34,5 @@ Software: Handyapp mit **RemoteXY**, Ansteuerung des Streifens mit der **Adafrui
 ## Umfang für jetzt
 
 - Nur **Schritt 1**, Aufgabe 1 (Muster rot / blau). Weitere Muster und Bluetooth folgen später.
+- Fortsetzung (Speichern im EEPROM, LED-Anzahl): siehe `Aufgabe3_Speichern_EEPROM.md`.
 - Verdrahtung: Taster an **D2** (gegen GND, `INPUT_PULLUP`), LED-Streifen-Daten an **D6**, **30 LEDs**.
