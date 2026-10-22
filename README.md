@@ -51,8 +51,16 @@ Parameter:
 - `bool isPressedFor(unsigned long ms) const` – `true`, wenn der Taster seit mindestens `ms` ms ununterbrochen gedrückt ist.
 - `bool wasPressedWithin(unsigned long ms) const` – `true`, wenn in den letzten `ms` ms ein Tastendruck erkannt wurde (nicht verbrauchend; `false`, solange noch nie gedrückt wurde).
 
+### `LedStrip` (`OwnLibs/LedStrip/`)
+
+Steuert einen WS2812-LED-Streifen über Adafruit NeoPixel, nicht blockierend, `show()` nur an einer Stelle mit begrenzter Framerate. Aktuell Muster rot/blau (`enum Pattern`). Details siehe `OwnLibs/LedStrip/README.md`.
+
 ## Projekte
 
 ### `TasterLogTest` (`TasterLogTest/`)
 
 Interaktiver Hardware-Test für `Taster` (kurz/lang/einmalige Ereignisse, danach LED-Demo: 5 s leuchten, bei erneutem Druck Neustart; ersetzt das frühere `TasterTest`) mit Serial-Ausgabe und PowerShell-Skript `log_serial.ps1`, das die Ausgabe in eine Log-Datei schreibt. Details siehe `TasterLogTest/README.md`.
+
+### `LedStrip` (`LedStrip/`)
+
+Aufgabe 2, Schritt 1: Taster (D2) schaltet den LED-Streifen (D6, 30 LEDs) zwischen den Mustern rot und blau um. Details siehe `LedStrip/README.md`, Aufgabenstellung in `Aufgaben/Aufgabe2_LedStreifen.md`.
